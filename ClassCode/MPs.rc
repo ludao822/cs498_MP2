@@ -1,0 +1,17 @@
+/Applications/FlightGear.app/Contents/MacOS/fgfs
+/Applications/FlightGear.app/Contents/Resources/data
+# For Ubuntu:
+# 		/usr/games/fgfs 						
+#		/usr/share/games/flightgear
+
+MP1 --airport=KSFO --timeofday=noon --aircraft=c172p 
+MP2 --airport=KSFO --timeofday=noon --aircraft=c172p --lat=37.616355 --lon=-122.382933 --heading=116.85
+MP2a --airport=KSFO --timeofday=noon --aircraft=c172p --lat=37.6264 --lon=-122.3772 --heading=300.0
+MP3 --airport=KSFO --timeofday=noon --aircraft=c172p --runway=28R --altitude=5000 --heading=270 --vc=100
+
+--fg-aircraft=C:/Users/Jerry\Documents/FlightGear/Aircraft;D:/Fun/FGFS/Aircraft
+--aircraft=pittss1c
+
+File to initialize the aircraft for each MP; first lines are collected as shared inputs to Popen, after a single blank line, mp names signal the rest of Popen's args for that mp.
+
+ fgfs --altitude=5000 --heading=270 --vc=110 --vor=OAK --offset-distance=5 --offset-azimuth=270

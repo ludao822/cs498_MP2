@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<PropertyList>
+ 
+ <generic>
+ 
+  <output>
+   <binary_mode>true</binary_mode>
+
+   <chunk>
+    <name>airspeed</name>
+    <type>float</type>
+    <node>/velocities/airspeed-kt</node>
+   </chunk>
+ 
+   <chunk>
+    <name>altitude</name>
+    <type>float</type>
+    <node>/position/altitude-ft</node>
+   </chunk>
+ 
+   <chunk>
+    <name>heading</name>
+    <type>float</type>
+    <node>/orientation/heading-deg</node>
+   </chunk>
+ 
+   <chunk>
+    <name>pitch</name>
+    <type>float</type>
+    <node>/orientation/pitch-deg</node>
+   </chunk>
+ 
+   <chunk>
+    <name>roll</name>
+    <type>float</type>
+    <node>/orientation/roll-deg</node>
+   </chunk>
+ 
+   <chunk>
+    <name>latitude</name>
+    <type>float</type>
+    <node>/position/latitude-deg</node>
+   </chunk>
+ 
+   <chunk>
+    <name>longitude</name>
+    <type>float</type>
+    <node>/position/longitude-deg</node>
+   </chunk>
+ 
+   <chunk>
+    <name>time</name>
+    <type>float</type>
+    <node>/sim/time/elapsed-sec</node>
+   </chunk>
+ 
+   <chunk>
+    <name>running</name>
+    <type>bool</type>
+    <node>/engines/engine/running</node>
+   </chunk>
+ 
+  </output>
+ 
+
+  <input>
+   <binary_mode>true</binary_mode>
+
+   <!-- Flight Controls -->
+   <chunk>
+    <name>aileron</name>
+    <type>float</type>
+    <node>/controls/flight/aileron</node>
+   </chunk>
+
+   <chunk>
+    <name>elevator</name>
+    <type>float</type>
+    <node>/controls/flight/elevator</node>
+   </chunk>
+ 
+   <chunk>
+    <name>rudder</name>
+    <type>float</type>
+    <node>/controls/flight/rudder</node>
+   </chunk>
+
+   <!-- Engines -->
+   <chunk>
+    <name>throttle</name>
+    <type>float</type>
+    <node>/controls/engines/engine[0]/throttle</node>
+   </chunk>
+
+   <chunk>
+    <name>mixture</name>
+    <type>float</type>
+    <node>/controls/engines/engine[0]/mixture</node>
+   </chunk>
+   
+   <chunk>
+    <name>magnetos</name>
+    <type>int</type>
+    <node>/controls/engines/engine[0]/magnetos</node>
+   </chunk>
+
+   <chunk>
+    <name>starter</name>
+    <type>bool</type>
+    <node>/controls/switches/starter</node>
+   </chunk>
+  </input>
+   
+ </generic>
+ 
+</PropertyList>
