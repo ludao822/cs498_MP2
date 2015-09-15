@@ -19,7 +19,7 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
         sf.strtTime = None
         sf.duration = None
         sf.wpts = sf.getWayPts(tsk);
-        sf.Head_PID = PID.PID(18 ,0.2, 0.2)
+        sf.Head_PID = PID.PID(12 ,0.2, 1)
 
     def computeTargetHeading(sf,fDat):
         ydiff = ((sf.wpts)[sf.currentWpt][0] - fDat.latitude) * 0.794
@@ -40,7 +40,7 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
         xdiff = (sf.wpts)[sf.currentWpt][1] - fDat.longitude
         distance = ydiff * ydiff + xdiff * xdiff
         print ("current distance is " + str(distance))
-        if distance < 0.0000001:
+        if distance < 0.00000006:
             return True
         else:
             return False
@@ -52,7 +52,8 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
         sf.duration = fDat.time - sf.strtTime
         if abs(fDat.roll) > 5.:			# first check for excessive roll
             print('Points lost for tipping; {:.1f} degrees at {:.1f} seconds'.format(fDat.roll, sf.duration))
-        
+        #Compute how much we want to move the rudder
+        #TODO Make this a seperate function
         heading_t=sf.computeTargetHeading(fDat)
         err = heading_t - fDat.head
         computed = (sf.Head_PID).compute_pid(err,sf.duration,True)
@@ -61,20 +62,7 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
         print("current heading is " + str(fDat.head))
         if computed is not None: 
             fCmd.rudder = computed
-        #heading_diff = heading_t - fDat.head
         fCmd.throttle = 0.4
-        '''
-        if heading_diff == 0:
-            fCmd.rudder = 0
-        elif(heading_diff > 0) and (heading_diff < 180):
-            fCmd.rudder = 0.3
-        elif(heading_diff > 0) and (heading_diff > 180):
-            fCmd.rudder = -0.3
-        elif(heading_diff < 0) and (heading_diff > -180):
-            fCmd.rudder = -0.3
-        else:
-            fCmd.rudder = 0.3
-        '''
         if(sf.closeEnough(fDat)):
             sf.currentWpt = sf.currentWpt + 1
             if sf.currentWpt >= len(sf.wpts):
@@ -83,9 +71,10 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
             else:
                 (sf.Head_PID).clear_integral
                 print("Now going to waypoint" + str(sf.currentWpt))
-        #elif sf.duration < 40.:		# coast until 40 seconds then exit
-        #    fCmd.throttle = 0.7
-        #    fCmd.rudder = 0.1
+        
+        #Compute how much we want to move the throttle
+        #TODO Make this a seperate function
+
         if sf.duration > 300:
             return 'stop'
 		
