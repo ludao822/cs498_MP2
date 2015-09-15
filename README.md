@@ -1,6 +1,4 @@
-# cs498_MP2
-
-#Feedback for version PID for heading only:
+# cs498_MP2 Feedback：
 
 #About the fact that no code change or complete test log were uploaded:
 Sorry about that, this testing is so addictive therefore I just realize that I should record all the testing result when I am writing this. I will do this when testing again tomorrow. And for the code, I chose not to upload my file since I only mess up with numbers without hurting the structure. And I really can't help much in coding.
@@ -8,21 +6,29 @@ Sorry about that, this testing is so addictive therefore I just realize that I s
 #After testing for like 100 times with kind of random paras, here are what I noticed:
 
 Something wrong with the close-enough function. waypoint 2-5 result in a big misdisplacement in lower speed. 
+
 It's better in higher speed maybe because of the inertia. 
+
 Don't know the math, but I change the parameter 0.794 to 1 or 0.5, and it does not affect the result much.
 
+
 throttle speed higher than 0.4 + PID heading involving = tip
+
 Between waypoint3 and waypoint4 there is an 180 degree turn, speed higher than 0.4 will probably tip. 
+
 tip will raise the score by 5. So either no tip at all or just let it go.
 
+
 (these assumption might be wrong since it's not a systematic test)
+
 P: Kp value change will result in the how big the heading change, it's not sensitive enough to readjust the angle under 5, the error is too big to turn stably when it's bigger than around 18? I keep it under 10 for most time.
+
 I: smaller Ki value can reduce the tendency of tail swinging when the plane going straight, bigger Ki value can help the plane stay straight but since we are turning a lot in this mp, I don't think we need to be that stable.
+
 D: this may speed up the turing? I don't see big difference. I set it to 0 or 1 for most times.
 
-#Attached with One of the test result:
-#run under fCmd.throttle = 0.6  sf.Head_PID = PID.PID(8,0.1,1)
-
+#Attached with One of the test result run under fCmd.throttle = 0.6  sf.Head_PID = PID.PID(8,0.1,1)
+<code>
 Now going to waypoint1
 Now going to waypoint2
 Now going to waypoint3
@@ -78,4 +84,5 @@ D:\Download\CS 498\ClassCode/MP2.wpts
  >>> 41 11.5581659244
 Taxiing score, interval 22 to 42: 66.312
 >>>
+<code>
 
