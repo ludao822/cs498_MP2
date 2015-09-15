@@ -54,7 +54,8 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
             print('Points lost for tipping; {:.1f} degrees at {:.1f} seconds'.format(fDat.roll, sf.duration))
         
         heading_t=sf.computeTargetHeading(fDat)
-        computed = (sf.Head_PID).compute_pid(fDat.head,heading_t,sf.duration)
+        err = heading_t - fDat.head
+        computed = (sf.Head_PID).compute_pid(err,sf.duration,True)
         print("computer number is " + str(computed));
         print("target heading is " + str(heading_t))
         print("current heading is " + str(fDat.head))

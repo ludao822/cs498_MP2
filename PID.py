@@ -13,14 +13,15 @@ class PID():
         sf.prev_err = 0
         sf.integral = 0
     
-    def compute_pid(sf, curr, target, time):
+    def compute_pid(sf, err, time, isHead):
         if time != sf.prev_time:
-            #normalize the heading difference so we know which direction to turn
-            err = target - curr
-            if((err > 0) and (err > 180)) or ((err < 0) and (err > -180)):#turn counter-clock
-                err = (-1) * fabs(err)/360.0
-            else:
-                err = fabs(err)/360.0
+            if isHead is True:
+                print ("!!!!!")
+                #normalize the heading difference so we know which direction to turn
+                if((err > 0) and (err > 180)) or ((err < 0) and (err > -180)):#turn counter-clock
+                    err = (-1) * fabs(err)/360.0
+                else:
+                    err = fabs(err)/360.0
             
             sf.integral = sf.integral + (time - sf.prev_time) * err
             deriv = (err - sf.prev_err)/(time - sf.prev_time)
