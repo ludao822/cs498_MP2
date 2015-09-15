@@ -14,11 +14,12 @@ def rel():
 class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
     currentWpt = 0
 
-    def __init__(sf,tsk='MP2',rc=True,gui=True):
+    def __init__(sf,tsk='MP2',rc=True,gui=False):
         super().__init__(tsk, rc, gui)
         sf.strtTime = None
         sf.duration = None
         sf.wpts = sf.getWayPts(tsk);
+        sf.Head_PID = PID.PID(18 ,0.2, 0.2)
 
     def computeTargetHeading(sf,fDat):
         ydiff = ((sf.wpts)[sf.currentWpt][0] - fDat.latitude) * 0.794
@@ -51,12 +52,17 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
         sf.duration = fDat.time - sf.strtTime
         if abs(fDat.roll) > 5.:			# first check for excessive roll
             print('Points lost for tipping; {:.1f} degrees at {:.1f} seconds'.format(fDat.roll, sf.duration))
+        
         heading_t=sf.computeTargetHeading(fDat)
+        computed = (sf.Head_PID).compute_pid(fDat.head,heading_t,sf.duration)
+        print("computer number is " + str(computed));
         print("target heading is " + str(heading_t))
         print("current heading is " + str(fDat.head))
-        heading_diff = heading_t - fDat.head
-        #if sf.duration < 12.0:			# full power for 2 seconds
+        if computed is not None: 
+            fCmd.rudder = computed
+        #heading_diff = heading_t - fDat.head
         fCmd.throttle = 0.4
+        '''
         if heading_diff == 0:
             fCmd.rudder = 0
         elif(heading_diff > 0) and (heading_diff < 180):
@@ -67,13 +73,14 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
             fCmd.rudder = -0.3
         else:
             fCmd.rudder = 0.3
-
+        '''
         if(sf.closeEnough(fDat)):
             sf.currentWpt = sf.currentWpt + 1
             if sf.currentWpt >= len(sf.wpts):
                 print("Finished all waypoints")
                 return 'stop'
             else:
+                (sf.Head_PID).clear_integral
                 print("Now going to waypoint" + str(sf.currentWpt))
         #elif sf.duration < 40.:		# coast until 40 seconds then exit
         #    fCmd.throttle = 0.7

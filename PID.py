@@ -1,4 +1,5 @@
 import imp, sys
+from math import fabs
 
 class PID():
     integral = 0
@@ -8,14 +9,26 @@ class PID():
         sf.Kp = Kp
         sf.Ki = Ki
         sf.Kd = Kd
-
+        sf.prev_time = 0
+        sf.prev_err = 0
+        sf.integral = 0
+    
     def compute_pid(sf, curr, target, time):
-        if time != prev_time:
-            integral = integral + (time - prev_time) * err
-            deriv = (err - prev_err)/(time - prev_time)
+        if time != sf.prev_time:
+            #normalize the heading difference so we know which direction to turn
+            err = target - curr
+            if((err > 0) and (err > 180)) or ((err < 0) and (err > -180)):#turn counter-clock
+                err = (-1) * fabs(err)/360.0
+            else:
+                err = fabs(err)/360.0
+            
+            sf.integral = sf.integral + (time - sf.prev_time) * err
+            deriv = (err - sf.prev_err)/(time - sf.prev_time)
             sf.prev_err = err
             sf.prev_time = time
             return sf.Kp * err + sf.Ki * sf.integral + sf.Kd * deriv
-
+    
+    def clear_integral(sf):
+        sf.integral = 0
 
 
