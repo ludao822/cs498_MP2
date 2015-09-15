@@ -28,8 +28,8 @@ I: smaller Ki value can reduce the tendency of tail swinging when the plane goin
 D: this may speed up the turing? I don't see big difference. I set it to 0 or 1 for most times.
 
 #Attached with One of the test result run under fCmd.throttle = 0.6  sf.Head_PID = PID.PID(8,0.1,1)
-<code>
-Now going to waypoint1
+
+<code>Now going to waypoint1
 Now going to waypoint2
 Now going to waypoint3
 Points lost for tipping; -6.4 degrees at 29.0 seconds
@@ -83,6 +83,6 @@ D:\Download\CS 498\ClassCode/MP2.wpts
  >>> 304 0.0
  >>> 41 11.5581659244
 Taxiing score, interval 22 to 42: 66.312
->>>
-<code>
+>>><code>
+
 
