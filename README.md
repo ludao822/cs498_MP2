@@ -1,4 +1,4 @@
-<raw># cs498_MP2 Feedback：
+'# cs498_MP2 Feedback：
 
 #About the fact that no code change or complete test log were uploaded:
 Sorry about that, this testing is so addictive therefore I just realize that I should record all the testing result when I am writing this. I will do this when testing again tomorrow. And for the code, I chose not to upload my file since I only mess up with numbers without hurting the structure. And I really can't help much in coding.
@@ -83,4 +83,5 @@ D:\Download\CS 498\ClassCode/MP2.wpts
  >>> 304 0.0
  >>> 41 11.5581659244
 Taxiing score, interval 22 to 42: 66.312
->>><raw>
+>>>
+'
