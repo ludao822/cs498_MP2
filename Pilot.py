@@ -13,14 +13,15 @@ def rel():
 
 class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
     currentWpt = 0
-
-    def __init__(sf,tsk='MP2',rc=True,gui=False):
+    
+    def __init__(sf,tsk='MP2',rc=True,gui=True):
         super().__init__(tsk, rc, gui)
         sf.strtTime = None
         sf.duration = None
         sf.wpts = sf.getWayPts(tsk);
-        sf.Head_PID = PID.PID(10 ,0.1, 4)
-
+        sf.Head_PID = PID.PID(13,0.1,6)
+        sf.Throttle_PID = PID.PID(0.12,0,0)
+        sf.target_speed = 10.0 
     def computeTargetHeading(sf,fDat):
         ydiff = ((sf.wpts)[sf.currentWpt][0] - fDat.latitude) * 0.794
         xdiff = (sf.wpts)[sf.currentWpt][1] - fDat.longitude
@@ -40,7 +41,7 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
         xdiff = (sf.wpts)[sf.currentWpt][1] - fDat.longitude
         distance = ydiff * ydiff + xdiff * xdiff
         print ("current distance is " + str(distance))
-        if distance < 0.00000001:
+        if distance < 0.000000024:
             return True
         else:
             return False
@@ -70,11 +71,18 @@ class Pilot (Ckpt.Ckpt):			# subclass of the class Ckpt in the file Ckpt
                 return 'stop'
             else:
                 (sf.Head_PID).clear_integral
+                (sf.Throttle_PID).clear_integral
                 print("Now going to waypoint" + str(sf.currentWpt))
         
         #Compute how much we want to move the throttle
         #TODO Make this a seperate function
+        speed = (sf.Throttle_PID).compute_speed(fDat, sf.duration)
+        err = sf.target_speed - speed
+        throttle_temp = (sf.Throttle_PID).compute_pid(err,sf.duration,False)
 
+        print("Current throttle is " + str(throttle_temp))
+        if throttle_temp is not None:
+            fCmd.throttle = throttle_temp
         if sf.duration > 300:
             return 'stop'
 		
