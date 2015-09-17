@@ -1,0 +1,41 @@
+# cs498_MP2 Feedback:
+
+updated 09/17
+
+current best : 19 ~ 24
+(There is one time it touches 15, but the performances are similar so I say that is a loss)
+
+
+para:
+
+ sf.Head_PID = PID.PID(7,0.1,6)
+        sf.Throttle_PID = PID.PID(0.1,0,0)
+        sf.target_speed = 10.0 
+        
+        distance < 0.000000003: #close enough distance
+        
+
+result:
+(Latitude, Longitude, Heading) waypoints for H
+ >>> 19 0.779621435583
+ >>> 72 0.0
+ >>> 187 1.93372859538
+ >>> 274 0.0
+ >>> 307 4.28469528131
+ >>> 394 0.0
+ >>> 438 6.78300806663
+wpterr:13.7810533789
+spdvar:3.47212571596
+durmin:1.98652783235
+Taxiing score, interval 19 to 439: 19.240
+
+limits:
+Throttle's I and D will affect trhe throttle heavily and cause out of range issues. may need more constraint.
+Its P > 0.12 will have similar effect as well.
+Heading 's P should be around 5 - 10 in current Throttle setting. 
+distance should be bigger than  0.000000003, but bigger than 0.000000010 may have bigger bigger wpterrs.
+
+issues:
+last waypoint  is obviously not acting normally. and waypoint 1,3,5,7 has distinctable error. 
+I guess it's the close enough function. I think tracking how the plane actully touch them will be helpful to fix this
+but I havn't done so.
